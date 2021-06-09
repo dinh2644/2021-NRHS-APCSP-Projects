@@ -121,3 +121,8 @@ function updateScreen2010s() {
   }
   setText("2010sOutput", textOutput);
 }
+
+
+https://studio.code.org/projects/applab/LVLksiOPyzMufpBdVGWAswUW7D8vLxn1-nrPnUyye-4
+
+Uses lists, loops, and traversals.
