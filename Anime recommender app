@@ -1,0 +1,289 @@
+//Declare variables
+var demographic = getColumn("Ranker.com Top Anime From Demographic", "Demographic");
+var episodes = getColumn("Ranker.com Top Anime From Demographic", "Episodes");
+var initialReleaseYear = getColumn("Ranker.com Top Anime From Demographic", "Initial Release Year");
+var studio = getColumn("Ranker.com Top Anime From Demographic", "Studio");
+var title = getColumn("Ranker.com Top Anime From Demographic", "Title");
+
+//Create filtered lists
+var filteredDemographic = [];
+var filteredEpisodes = [];
+var filteredInitialReleaseYear = [];
+var filteredStudio = [];
+var filteredTitle = [];
+
+//Create reset filtered lists
+//The purpose is to reset any list from generated outputs, 
+//to prevent overstacking 
+//Begin cited code 
+//https://youtu.be/c0PJsb2pCaw
+//Timestamp: 40:41 
+function resetFilteredLists(){
+  filteredDemographic = [];
+  filteredEpisodes = [];
+  filteredInitialReleaseYear = [];
+  filteredStudio = [];
+  filteredTitle= [];
+}
+//End cited code 
+
+//onEvents for all return buttons without functions
+//These buttons will only prompt to another screen 
+onEvent("shonenReturnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("shoujoReturnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("seinenReturnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("joseiReturnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("returnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("helpButton", "click", function( ) {
+  setScreen("HELP");
+});
+onEvent("statsReturnButton", "click", function( ) {
+  setScreen("HOME");
+});
+onEvent("shonenStatsReturnButton", "click", function( ) {
+  setScreen("SHONEN");
+});
+onEvent("shoujoStatsReturnButton", "click", function( ) {
+  setScreen("SHOUJO");
+});
+onEvent("seinenStatsReturnButton", "click", function( ) {
+  setScreen("SEINEN");
+});
+onEvent("joseiStatsReturnButton", "click", function( ) {
+  setScreen("JOSEI");
+});
+
+//onEvents for buttons with functions
+//On the click of "x" button will activate getStats function 
+//Statistic button will run getStats from the whole entire dataset
+onEvent("statisticsButton", "click", function( ) {
+  getStats();
+});
+//shonenGetStats will only get statistics from the Shonen list
+onEvent("shonenStatsButton", "click", function( ) {
+  shonenGetStats();
+});
+//shoujoGetStats will only get statistics from the Shoujo list
+onEvent("shoujoStatsButton", "click", function( ) {
+  shoujoGetStats();
+});
+//seinenGetStats will only get statistics from the Seinen list
+onEvent("seinenStatsButton", "click", function( ) {
+  seinenGetStats();
+});
+//joseiGetStats will only get statistics from the Josei list
+onEvent("joseiStatsButton", "click", function( ) {
+  joseiGetStats();
+});
+//On the event of inputting a selection from demographicDropdown, 
+//the function "filter" will correspond to certain selections
+onEvent("demographicDropdown", "input", function() {
+  filter(getText("demographicDropdown"));
+});
+//From the demographicDropdown, 
+//if choices from dropdown equals "x", 
+//the proper updateScreen function will run 
+onEvent("generateButton", "click", function( ) {
+  var demographic = getText("demographicDropdown");
+  if (demographic == "Shonen") {
+    updateScreenShonen();
+  } else if (demographic == "Shoujo") {
+    updateScreenShoujo();
+  } else if (demographic == "Seinen") {
+    updateScreenSeinen();
+  } else {
+    updateScreenJosei();
+  }
+});
+
+//Filter dropdown abstraction
+//This will be used for demographicDropdown,
+//demographicInput will be given a value from demographic list, 
+//if demographicInput == demographic[i], 
+//the filtered lists will be given a value 
+
+//Begin cited code 
+// https://youtu.be/GVC26GYjAQg
+//Timestamp: 19:25 
+function filter(demographicInput) {
+  resetFilteredLists();
+  for (var i=0; i < title.length; i++){
+    if (demographicInput == demographic[i]){
+      //End cited code 
+      appendItem(filteredDemographic, demographic[i]);
+      appendItem(filteredEpisodes, episodes[i]);
+      appendItem(filteredInitialReleaseYear, initialReleaseYear[i]);
+      appendItem(filteredStudio, studio[i]);
+      appendItem(filteredTitle, title[i]);
+    }
+  }
+}
+
+//Update Screen functions
+//From the filter abstraction, 
+//the demographicInput will prompt the valued filtered variables to appropiate screens
+
+//Begin cited Code
+//https://github.com/kayanhales/codeorg-unit5-hackathon/blob/main/africanamericaninventors.js 
+function updateScreenShonen() {
+  setScreen("SHONEN");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i + 1;
+    textOutput = ((((((textOutput + newIndex) +". Anime: ") +filteredTitle[i]  +"\nType: ")+ filteredDemographic[i] + "\nStudio: ")+ filteredStudio[i] + "\nEpisodes: ") + filteredEpisodes[i]+ "\nInitial Release Year: ") +filteredInitialReleaseYear[i]+"\n\n";
+  }
+  setText("shonenOutput", textOutput);
+}
+//End cited code (Same layout for updateScreenShoujo, updateScreenSeinen, updateScreenJosei) 
+
+function updateScreenShoujo() {
+  setScreen("SHOUJO");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i + 1;
+    textOutput = ((((((textOutput + newIndex) +". Anime: ") +filteredTitle[i]  +"\nType: ")+ filteredDemographic[i] + "\nStudio: ")+ filteredStudio[i] + "\nEpisodes: ") + filteredEpisodes[i]+ "\nInitial Release Year: ") +filteredInitialReleaseYear[i]+"\n\n";
+  }
+  setText("shoujoOutput", textOutput);
+}
+
+function updateScreenSeinen() {
+  setScreen("SEINEN");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i + 1;
+    textOutput = ((((((textOutput + newIndex) +". Anime: ") +filteredTitle[i]  +"\nType: ")+ filteredDemographic[i] + "\nStudio: ")+ filteredStudio[i] + "\nEpisodes: ") + filteredEpisodes[i]+ "\nInitial Release Year: ") +filteredInitialReleaseYear[i]+"\n\n";
+  }
+  setText("seinenOutput", textOutput);
+}
+
+function updateScreenJosei() {
+  setScreen("JOSEI");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i + 1;
+    textOutput = ((((((textOutput + newIndex) +". Anime: ") +filteredTitle[i]  +"\nType: ")+ filteredDemographic[i] + "\nStudio: ")+ filteredStudio[i] + "\nEpisodes: ") + filteredEpisodes[i]+ "\nInitial Release Year: ") +filteredInitialReleaseYear[i]+"\n\n";
+  }
+  setText("joseiOutput", textOutput);
+}
+
+//An algorithm to get statistics of specific context
+//getStats will run algorithm on the dataset as a whole
+
+//Begin cited code 
+//https://youtu.be/Mv3bbPc2-E4 
+// Timestamp: 0:28
+function getStats() {
+  setScreen("STATISTIC");
+  var top5 = "";
+  var common = "";
+  var release = "";
+  for (var i = 0; i < title.length; i++) {
+    if (episodes[i] >= 220) {
+      top5 = (title[i]+ " : "+episodes[i] +"\n") + top5;
+      // End cited code
+      //Same piece of code used in shonenGetStats, shoujoGetStats, seinenGetStats, joseiGetStats
+    } else if ((studio[i] == "Madhouse")) {
+      common = studio[i];
+    } else if (initialReleaseYear[i] == "2014") {
+      release = initialReleaseYear[i];
+    }
+  }
+  setText("top5Output", top5);
+  setText("commonOutput", common);
+  setText("releaseOutput", release);
+}
+
+//These seperate (demographic)GetStats will get statistics of a certain demographic only 
+function shonenGetStats() {
+  setScreen("SHONENSTATISTICS");
+  var top5 = "";
+  var common = "";
+  var release = "";
+  for (var i = 0; i < filteredTitle.length; i++) {
+    if (filteredEpisodes[i] >= 220) {
+      top5 = (filteredTitle[i]+ " : "+filteredEpisodes[i] +"\n") + top5;
+    } else if ((filteredStudio[i] == "Pierrot")) {
+      common = filteredStudio[i];
+    } else if (filteredInitialReleaseYear[i] == "2014") {
+      release = filteredInitialReleaseYear[i];
+    }
+  }
+  setText("shonenTop5Output", top5);
+  setText("shonenCommonStudioOutput", common);
+  setText("shonenCommonYearOutput", release);
+  }
+
+function shoujoGetStats() {
+  setScreen("SHOUJOSTATISTICS");
+  var top5 = "";
+  var common = "";
+  var release = "";
+  for (var i = 0; i < filteredTitle.length; i++) {
+    if (filteredEpisodes[i] >= 47) {
+      top5 = (filteredTitle[i]+ " : "+filteredEpisodes[i] +"\n") + top5;
+    } else if ((filteredStudio[i] == "Toei")) {
+      common = (filteredStudio[i]);
+    } else if ((filteredInitialReleaseYear[i] == "2014")) {
+      release = filteredInitialReleaseYear[i];
+    }
+  }
+  setText("shoujoTop5Output", top5);
+  setText("shoujoCommonStudioOutput", common);
+  setText("shoujoCommonYearOutput", release);
+  }
+
+function seinenGetStats() {
+  setScreen("SEINENSTATISTICS");
+  var top5 = "";
+  var common = "";
+  var release = "";
+  for (var i = 0; i < filteredTitle.length; i++) {
+    if (filteredEpisodes[i] >= 40) {
+      top5 = (filteredTitle[i]+ " : "+filteredEpisodes[i] +"\n") + top5;
+    } else if ((filteredStudio[i] == "Madhouse")) {
+      common = filteredStudio[i];
+    } else if ((filteredInitialReleaseYear[i] == "2006")) {
+      release = filteredInitialReleaseYear[i];
+    }
+  }
+  setText("seinenTop5Output", top5);
+  setText("seinenCommonStudioOutput", common);
+  setText("seinenCommonYearOutput", release);
+  }
+
+function joseiGetStats() {
+  setScreen("JOSEISTATISTICS");
+  var top5 = "";
+  var common = "";
+  var release = "";
+  for (var i = 0; i < filteredTitle.length; i++) {
+    if (filteredEpisodes[i] >= 40) {
+      top5 = (filteredTitle[i]+ " : "+filteredEpisodes[i] +"\n") + top5;
+    } else if ((filteredStudio[i] == "Madhouse")) {
+      common = filteredStudio[i];
+    } else if ((filteredInitialReleaseYear[i] == "2011")) {
+      release = filteredInitialReleaseYear[i];
+    }
+  }
+  setText("joseiTop5Output", top5);
+  setText("joseiCommonStudioOutput", common);
+  setText("joseiCommonYearOutput", release);
+  }
+
+// Home screen image credits
+// https://www.pinterest.com/pin/847591592354092659/
+//Dataset created with website(s): 
+//Shonen: https://www.ranker.com/list/best-shounen-anime-ever-made/ranker-anime 
+//Shoujo: https://www.ranker.com/list/best-shoujo-anime-and-manga/ranker-anime?ref=collections&l=1927482&collectionId=43 
+//Seinen: https://www.ranker.com/list/best-seinen-anime-and-manga/ranker-anime?ref=collections&l=2595184&collectionId=43
+//Josei: https://www.ranker.com/list/best-josei-anime-and-manga/ranker-anime?ref=collections&l=1973806&collectionId=43
