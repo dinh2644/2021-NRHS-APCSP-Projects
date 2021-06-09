@@ -1,0 +1,123 @@
+//Declare variables
+var releaseDate = getColumn("Best Selling Video Games", "releaseDate");
+var title = getColumn("Best Selling Video Games", "title");
+var sales = getColumn("Best Selling Video Games", "sales");
+var developer = getColumn("Best Selling Video Games", "developer");
+
+//Create filtered lists
+var filteredReleaseDate = [];
+var filteredTitle = [];
+var filteredSales = [];
+var filteredDeveloper = [];
+
+//add onevents for buttons
+onEvent("1900sButton", "click", function( ) {
+  filter1900s();
+  updateScreen1900s();
+});
+onEvent("returnButton", "click", function( ) {
+  setScreen("home");
+});
+onEvent("2000sButton", "click", function( ) {
+  filter2000s();
+  updateScreen2000s();
+});
+onEvent("returnButton1", "click", function( ) {
+  setScreen("home");
+});
+onEvent("2010sButton", "click", function( ) {
+  filter2010s();
+  updateScreen2010s();
+});
+onEvent("returnButton2", "click", function( ) {
+  setScreen("home");
+});
+
+//reset Lists
+
+function resetFilteredLists(){
+  filteredReleaseDate = [];
+  filteredTitle = [];
+  filteredSales = [];
+  filteredDeveloper = [];
+}
+
+//filter function
+function filter1900s() {
+  //loop through list of titles
+  //check if release date starts with '19'
+  //if yes, add title to filtered lists
+  resetFilteredLists();
+  for (var i=0; i < title.length; i++){
+    var firstTwoNumbers = releaseDate[i].substring(0,2);
+    if (firstTwoNumbers == "19"){
+      appendItem(filteredReleaseDate, releaseDate[i]);
+      appendItem(filteredTitle, title[i]);
+      appendItem(filteredSales, sales[i]);
+      appendItem(filteredDeveloper, developer[i]);
+    }
+  }
+}
+
+function filter2000s() {
+  //loop through list of titles
+  //check if release date starts with '200'
+  //if yes, add titles to filtered lists
+  resetFilteredLists();
+  for (var i=0; i < title.length; i++){
+    var firstThreeNumbers = releaseDate[i].substring(0,3);
+    if (firstThreeNumbers == "200"){
+      appendItem(filteredReleaseDate, releaseDate[i]);
+      appendItem(filteredTitle, title[i]);
+      appendItem(filteredSales, sales[i]);
+      appendItem(filteredDeveloper, developer[i]);
+    }
+  }
+}
+
+function filter2010s() {
+  //loop through list of titles
+  //check if release date starts with '201'
+  //if yes, add title to filtered lists
+  resetFilteredLists();
+  for (var i=0; i < title.length; i++){
+    var firstThreeNumbers = releaseDate[i].substring(0,3);
+    if (firstThreeNumbers == "201"){
+      appendItem(filteredReleaseDate, releaseDate[i]);
+      appendItem(filteredTitle, title[i]);
+      appendItem(filteredSales, sales[i]);
+      appendItem(filteredDeveloper, developer[i]);
+    }
+  }
+}
+
+//update screen function
+function updateScreen1900s() {
+  setScreen("1900s");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i+1;
+    textOutput = textOutput + newIndex +" Title: " +filteredTitle[i]  + ", "+"Release Date: "+ filteredReleaseDate[i] + ", " + " Sales: "+ filteredSales[i] + ", "+" Developer: " + filteredDeveloper[i]+"\n\n";
+  }
+  setText("1900sOutput", textOutput);
+}
+
+function updateScreen2000s() {
+  setScreen("2000s");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i+1;
+    textOutput = textOutput + newIndex +" Title: " +filteredTitle[i]  + ", "+"Release Date: "+ filteredReleaseDate[i] + ", " + " Sales: "+ filteredSales[i] + ", "+" Developer: " + filteredDeveloper[i]+"\n\n";
+  }
+  setText("2000sOutput", textOutput);
+}
+
+function updateScreen2010s() {
+  setScreen("2010s");
+  var textOutput = "";
+  for (var i=0; i<filteredTitle.length; i++){
+    var newIndex = i+1;
+    textOutput = textOutput + newIndex +" Title: " +filteredTitle[i]  + ", "+"Release Date: "+ filteredReleaseDate[i] + ", " + " Sales: "+ filteredSales[i] + ", "+" Developer: " + filteredDeveloper[i]+"\n\n";
+  }
+  setText("2010sOutput", textOutput);
+}
